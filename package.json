@@ -1,0 +1,19 @@
+{
+  "name": "evolution-io",
+  "uuid": "e1244d28-adc8-4ea1-b4de-da6e0fef66ed",
+  "creator": {
+    "version": "3.8.8"
+  },
+  "scripts": {
+    "build-proto:pbjs": "pbjs -t static-module -w commonjs -o ./assets/scripts/protos/proto.js ./protos/*.proto",
+    "build-proto:pbts": "pbts -o ./assets/scripts/protos/proto.d.ts ./assets/scripts/protos/*.js",
+    "gen-env": "node gen-config.js"
+  },
+  "dependencies": {
+    "protobufjs": "^8.0.1"
+  },
+  "devDependencies": {
+    "dotenv": "^17.4.2",
+    "protobufjs-cli": "^2.0.1"
+  }
+}

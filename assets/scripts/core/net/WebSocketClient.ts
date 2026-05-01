@@ -6,7 +6,7 @@ import protos from "../../protos/proto.js";
 export class WebSocketClient {
   private socket: WebSocket | null = null;
   private logTimer: number = 0;
-  private readonly logInterval: number = 60;
+  private readonly logInterval: number = 1;
 
   private readonly retryConnectTimeout: number = 1000;
 
@@ -71,6 +71,11 @@ export class WebSocketClient {
       case "realtime":
         if (message.realtime) {
           GameManager.instance.syncRoom(message);
+        }
+        break;
+      case "roomSnapshot":
+        if (message.roomSnapshot) {
+          GameManager.instance.syncRoomSnapshot(message);
         }
         break;
       default:

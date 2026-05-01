@@ -12,7 +12,10 @@ const INTERPOLATION_DELAY = 0.1; // 100ms 延遲渲染
 
 @ccclass("PlayerPawn")
 export class PlayerPawn extends Component {
+
   public id: string = "";
+  public playerName: string = "";
+  public shortId: number = 0;
   public hp: number = 0;
 
   private snapshotBuffer: Snapshot[] = [];
@@ -34,7 +37,9 @@ export class PlayerPawn extends Component {
       }
 
       if (!latestSnapshot) return;
-      const interpolatedPos = this.node.getPosition().lerp(latestSnapshot.pos, 0.3);
+      const interpolatedPos = this.node
+        .getPosition()
+        .lerp(latestSnapshot.pos, 0.3);
       this.node.setPosition(interpolatedPos);
     }
   }

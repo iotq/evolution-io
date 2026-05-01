@@ -1243,7 +1243,7 @@ $root.PlayerContent = (function() {
      * Properties of a PlayerContent.
      * @exports IPlayerContent
      * @interface IPlayerContent
-     * @property {string|null} [id] PlayerContent id
+     * @property {number|null} [shortId] PlayerContent shortId
      * @property {number|null} [x] PlayerContent x
      * @property {number|null} [y] PlayerContent y
      * @property {number|null} [rotation] PlayerContent rotation
@@ -1266,12 +1266,12 @@ $root.PlayerContent = (function() {
     }
 
     /**
-     * PlayerContent id.
-     * @member {string} id
+     * PlayerContent shortId.
+     * @member {number} shortId
      * @memberof PlayerContent
      * @instance
      */
-    PlayerContent.prototype.id = "";
+    PlayerContent.prototype.shortId = 0;
 
     /**
      * PlayerContent x.
@@ -1329,8 +1329,8 @@ $root.PlayerContent = (function() {
     PlayerContent.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-            writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+        if (message.shortId != null && Object.hasOwnProperty.call(message, "shortId"))
+            writer.uint32(/* id 1, wireType 0 =*/8).int32(message.shortId);
         if (message.x != null && Object.hasOwnProperty.call(message, "x"))
             writer.uint32(/* id 2, wireType 5 =*/21).float(message.x);
         if (message.y != null && Object.hasOwnProperty.call(message, "y"))
@@ -1376,7 +1376,7 @@ $root.PlayerContent = (function() {
                 break;
             switch (tag >>> 3) {
             case 1: {
-                    message.id = reader.string();
+                    message.shortId = reader.int32();
                     break;
                 }
             case 2: {
@@ -1430,9 +1430,9 @@ $root.PlayerContent = (function() {
     PlayerContent.verify = function verify(message) {
         if (typeof message !== "object" || message === null)
             return "object expected";
-        if (message.id != null && message.hasOwnProperty("id"))
-            if (!$util.isString(message.id))
-                return "id: string expected";
+        if (message.shortId != null && message.hasOwnProperty("shortId"))
+            if (!$util.isInteger(message.shortId))
+                return "shortId: integer expected";
         if (message.x != null && message.hasOwnProperty("x"))
             if (typeof message.x !== "number")
                 return "x: number expected";
@@ -1460,8 +1460,8 @@ $root.PlayerContent = (function() {
         if (object instanceof $root.PlayerContent)
             return object;
         var message = new $root.PlayerContent();
-        if (object.id != null)
-            message.id = String(object.id);
+        if (object.shortId != null)
+            message.shortId = object.shortId | 0;
         if (object.x != null)
             message.x = Number(object.x);
         if (object.y != null)
@@ -1487,14 +1487,14 @@ $root.PlayerContent = (function() {
             options = {};
         var object = {};
         if (options.defaults) {
-            object.id = "";
+            object.shortId = 0;
             object.x = 0;
             object.y = 0;
             object.rotation = 0;
             object.hp = 0;
         }
-        if (message.id != null && message.hasOwnProperty("id"))
-            object.id = message.id;
+        if (message.shortId != null && message.hasOwnProperty("shortId"))
+            object.shortId = message.shortId;
         if (message.x != null && message.hasOwnProperty("x"))
             object.x = options.json && !isFinite(message.x) ? String(message.x) : message.x;
         if (message.y != null && message.hasOwnProperty("y"))
@@ -1533,6 +1533,350 @@ $root.PlayerContent = (function() {
     };
 
     return PlayerContent;
+})();
+
+$root.PlayerFullInfo = (function() {
+
+    /**
+     * Properties of a PlayerFullInfo.
+     * @exports IPlayerFullInfo
+     * @interface IPlayerFullInfo
+     * @property {string|null} [id] PlayerFullInfo id
+     * @property {string|null} [name] PlayerFullInfo name
+     * @property {number|null} [shortId] PlayerFullInfo shortId
+     * @property {number|null} [x] PlayerFullInfo x
+     * @property {number|null} [y] PlayerFullInfo y
+     * @property {number|null} [rotation] PlayerFullInfo rotation
+     * @property {number|null} [hp] PlayerFullInfo hp
+     */
+
+    /**
+     * Constructs a new PlayerFullInfo.
+     * @exports PlayerFullInfo
+     * @classdesc Represents a PlayerFullInfo.
+     * @implements IPlayerFullInfo
+     * @constructor
+     * @param {IPlayerFullInfo=} [properties] Properties to set
+     */
+    function PlayerFullInfo(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * PlayerFullInfo id.
+     * @member {string} id
+     * @memberof PlayerFullInfo
+     * @instance
+     */
+    PlayerFullInfo.prototype.id = "";
+
+    /**
+     * PlayerFullInfo name.
+     * @member {string} name
+     * @memberof PlayerFullInfo
+     * @instance
+     */
+    PlayerFullInfo.prototype.name = "";
+
+    /**
+     * PlayerFullInfo shortId.
+     * @member {number} shortId
+     * @memberof PlayerFullInfo
+     * @instance
+     */
+    PlayerFullInfo.prototype.shortId = 0;
+
+    /**
+     * PlayerFullInfo x.
+     * @member {number} x
+     * @memberof PlayerFullInfo
+     * @instance
+     */
+    PlayerFullInfo.prototype.x = 0;
+
+    /**
+     * PlayerFullInfo y.
+     * @member {number} y
+     * @memberof PlayerFullInfo
+     * @instance
+     */
+    PlayerFullInfo.prototype.y = 0;
+
+    /**
+     * PlayerFullInfo rotation.
+     * @member {number} rotation
+     * @memberof PlayerFullInfo
+     * @instance
+     */
+    PlayerFullInfo.prototype.rotation = 0;
+
+    /**
+     * PlayerFullInfo hp.
+     * @member {number} hp
+     * @memberof PlayerFullInfo
+     * @instance
+     */
+    PlayerFullInfo.prototype.hp = 0;
+
+    /**
+     * Creates a new PlayerFullInfo instance using the specified properties.
+     * @function create
+     * @memberof PlayerFullInfo
+     * @static
+     * @param {IPlayerFullInfo=} [properties] Properties to set
+     * @returns {PlayerFullInfo} PlayerFullInfo instance
+     */
+    PlayerFullInfo.create = function create(properties) {
+        return new PlayerFullInfo(properties);
+    };
+
+    /**
+     * Encodes the specified PlayerFullInfo message. Does not implicitly {@link PlayerFullInfo.verify|verify} messages.
+     * @function encode
+     * @memberof PlayerFullInfo
+     * @static
+     * @param {IPlayerFullInfo} message PlayerFullInfo message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    PlayerFullInfo.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+        if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
+        if (message.shortId != null && Object.hasOwnProperty.call(message, "shortId"))
+            writer.uint32(/* id 3, wireType 0 =*/24).int32(message.shortId);
+        if (message.x != null && Object.hasOwnProperty.call(message, "x"))
+            writer.uint32(/* id 4, wireType 5 =*/37).float(message.x);
+        if (message.y != null && Object.hasOwnProperty.call(message, "y"))
+            writer.uint32(/* id 5, wireType 5 =*/45).float(message.y);
+        if (message.rotation != null && Object.hasOwnProperty.call(message, "rotation"))
+            writer.uint32(/* id 6, wireType 5 =*/53).float(message.rotation);
+        if (message.hp != null && Object.hasOwnProperty.call(message, "hp"))
+            writer.uint32(/* id 7, wireType 0 =*/56).int32(message.hp);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified PlayerFullInfo message, length delimited. Does not implicitly {@link PlayerFullInfo.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof PlayerFullInfo
+     * @static
+     * @param {IPlayerFullInfo} message PlayerFullInfo message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    PlayerFullInfo.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a PlayerFullInfo message from the specified reader or buffer.
+     * @function decode
+     * @memberof PlayerFullInfo
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {PlayerFullInfo} PlayerFullInfo
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    PlayerFullInfo.decode = function decode(reader, length, error) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.PlayerFullInfo();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            if (tag === error)
+                break;
+            switch (tag >>> 3) {
+            case 1: {
+                    message.id = reader.string();
+                    break;
+                }
+            case 2: {
+                    message.name = reader.string();
+                    break;
+                }
+            case 3: {
+                    message.shortId = reader.int32();
+                    break;
+                }
+            case 4: {
+                    message.x = reader.float();
+                    break;
+                }
+            case 5: {
+                    message.y = reader.float();
+                    break;
+                }
+            case 6: {
+                    message.rotation = reader.float();
+                    break;
+                }
+            case 7: {
+                    message.hp = reader.int32();
+                    break;
+                }
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a PlayerFullInfo message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof PlayerFullInfo
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {PlayerFullInfo} PlayerFullInfo
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    PlayerFullInfo.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a PlayerFullInfo message.
+     * @function verify
+     * @memberof PlayerFullInfo
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    PlayerFullInfo.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.id != null && message.hasOwnProperty("id"))
+            if (!$util.isString(message.id))
+                return "id: string expected";
+        if (message.name != null && message.hasOwnProperty("name"))
+            if (!$util.isString(message.name))
+                return "name: string expected";
+        if (message.shortId != null && message.hasOwnProperty("shortId"))
+            if (!$util.isInteger(message.shortId))
+                return "shortId: integer expected";
+        if (message.x != null && message.hasOwnProperty("x"))
+            if (typeof message.x !== "number")
+                return "x: number expected";
+        if (message.y != null && message.hasOwnProperty("y"))
+            if (typeof message.y !== "number")
+                return "y: number expected";
+        if (message.rotation != null && message.hasOwnProperty("rotation"))
+            if (typeof message.rotation !== "number")
+                return "rotation: number expected";
+        if (message.hp != null && message.hasOwnProperty("hp"))
+            if (!$util.isInteger(message.hp))
+                return "hp: integer expected";
+        return null;
+    };
+
+    /**
+     * Creates a PlayerFullInfo message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof PlayerFullInfo
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {PlayerFullInfo} PlayerFullInfo
+     */
+    PlayerFullInfo.fromObject = function fromObject(object) {
+        if (object instanceof $root.PlayerFullInfo)
+            return object;
+        var message = new $root.PlayerFullInfo();
+        if (object.id != null)
+            message.id = String(object.id);
+        if (object.name != null)
+            message.name = String(object.name);
+        if (object.shortId != null)
+            message.shortId = object.shortId | 0;
+        if (object.x != null)
+            message.x = Number(object.x);
+        if (object.y != null)
+            message.y = Number(object.y);
+        if (object.rotation != null)
+            message.rotation = Number(object.rotation);
+        if (object.hp != null)
+            message.hp = object.hp | 0;
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a PlayerFullInfo message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof PlayerFullInfo
+     * @static
+     * @param {PlayerFullInfo} message PlayerFullInfo
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    PlayerFullInfo.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.id = "";
+            object.name = "";
+            object.shortId = 0;
+            object.x = 0;
+            object.y = 0;
+            object.rotation = 0;
+            object.hp = 0;
+        }
+        if (message.id != null && message.hasOwnProperty("id"))
+            object.id = message.id;
+        if (message.name != null && message.hasOwnProperty("name"))
+            object.name = message.name;
+        if (message.shortId != null && message.hasOwnProperty("shortId"))
+            object.shortId = message.shortId;
+        if (message.x != null && message.hasOwnProperty("x"))
+            object.x = options.json && !isFinite(message.x) ? String(message.x) : message.x;
+        if (message.y != null && message.hasOwnProperty("y"))
+            object.y = options.json && !isFinite(message.y) ? String(message.y) : message.y;
+        if (message.rotation != null && message.hasOwnProperty("rotation"))
+            object.rotation = options.json && !isFinite(message.rotation) ? String(message.rotation) : message.rotation;
+        if (message.hp != null && message.hasOwnProperty("hp"))
+            object.hp = message.hp;
+        return object;
+    };
+
+    /**
+     * Converts this PlayerFullInfo to JSON.
+     * @function toJSON
+     * @memberof PlayerFullInfo
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    PlayerFullInfo.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Gets the default type url for PlayerFullInfo
+     * @function getTypeUrl
+     * @memberof PlayerFullInfo
+     * @static
+     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns {string} The default type url
+     */
+    PlayerFullInfo.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        if (typeUrlPrefix === undefined) {
+            typeUrlPrefix = "type.googleapis.com";
+        }
+        return typeUrlPrefix + "/PlayerFullInfo";
+    };
+
+    return PlayerFullInfo;
 })();
 
 $root.RealtimeContent = (function() {
@@ -1761,6 +2105,232 @@ $root.RealtimeContent = (function() {
     return RealtimeContent;
 })();
 
+$root.RoomSnapshot = (function() {
+
+    /**
+     * Properties of a RoomSnapshot.
+     * @exports IRoomSnapshot
+     * @interface IRoomSnapshot
+     * @property {Array.<IPlayerFullInfo>|null} [players] RoomSnapshot players
+     */
+
+    /**
+     * Constructs a new RoomSnapshot.
+     * @exports RoomSnapshot
+     * @classdesc Represents a RoomSnapshot.
+     * @implements IRoomSnapshot
+     * @constructor
+     * @param {IRoomSnapshot=} [properties] Properties to set
+     */
+    function RoomSnapshot(properties) {
+        this.players = [];
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * RoomSnapshot players.
+     * @member {Array.<IPlayerFullInfo>} players
+     * @memberof RoomSnapshot
+     * @instance
+     */
+    RoomSnapshot.prototype.players = $util.emptyArray;
+
+    /**
+     * Creates a new RoomSnapshot instance using the specified properties.
+     * @function create
+     * @memberof RoomSnapshot
+     * @static
+     * @param {IRoomSnapshot=} [properties] Properties to set
+     * @returns {RoomSnapshot} RoomSnapshot instance
+     */
+    RoomSnapshot.create = function create(properties) {
+        return new RoomSnapshot(properties);
+    };
+
+    /**
+     * Encodes the specified RoomSnapshot message. Does not implicitly {@link RoomSnapshot.verify|verify} messages.
+     * @function encode
+     * @memberof RoomSnapshot
+     * @static
+     * @param {IRoomSnapshot} message RoomSnapshot message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    RoomSnapshot.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.players != null && message.players.length)
+            for (var i = 0; i < message.players.length; ++i)
+                $root.PlayerFullInfo.encode(message.players[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified RoomSnapshot message, length delimited. Does not implicitly {@link RoomSnapshot.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof RoomSnapshot
+     * @static
+     * @param {IRoomSnapshot} message RoomSnapshot message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    RoomSnapshot.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a RoomSnapshot message from the specified reader or buffer.
+     * @function decode
+     * @memberof RoomSnapshot
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {RoomSnapshot} RoomSnapshot
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    RoomSnapshot.decode = function decode(reader, length, error) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.RoomSnapshot();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            if (tag === error)
+                break;
+            switch (tag >>> 3) {
+            case 1: {
+                    if (!(message.players && message.players.length))
+                        message.players = [];
+                    message.players.push($root.PlayerFullInfo.decode(reader, reader.uint32()));
+                    break;
+                }
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a RoomSnapshot message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof RoomSnapshot
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {RoomSnapshot} RoomSnapshot
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    RoomSnapshot.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a RoomSnapshot message.
+     * @function verify
+     * @memberof RoomSnapshot
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    RoomSnapshot.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.players != null && message.hasOwnProperty("players")) {
+            if (!Array.isArray(message.players))
+                return "players: array expected";
+            for (var i = 0; i < message.players.length; ++i) {
+                var error = $root.PlayerFullInfo.verify(message.players[i]);
+                if (error)
+                    return "players." + error;
+            }
+        }
+        return null;
+    };
+
+    /**
+     * Creates a RoomSnapshot message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof RoomSnapshot
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {RoomSnapshot} RoomSnapshot
+     */
+    RoomSnapshot.fromObject = function fromObject(object) {
+        if (object instanceof $root.RoomSnapshot)
+            return object;
+        var message = new $root.RoomSnapshot();
+        if (object.players) {
+            if (!Array.isArray(object.players))
+                throw TypeError(".RoomSnapshot.players: array expected");
+            message.players = [];
+            for (var i = 0; i < object.players.length; ++i) {
+                if (typeof object.players[i] !== "object")
+                    throw TypeError(".RoomSnapshot.players: object expected");
+                message.players[i] = $root.PlayerFullInfo.fromObject(object.players[i]);
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a RoomSnapshot message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof RoomSnapshot
+     * @static
+     * @param {RoomSnapshot} message RoomSnapshot
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    RoomSnapshot.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.arrays || options.defaults)
+            object.players = [];
+        if (message.players && message.players.length) {
+            object.players = [];
+            for (var j = 0; j < message.players.length; ++j)
+                object.players[j] = $root.PlayerFullInfo.toObject(message.players[j], options);
+        }
+        return object;
+    };
+
+    /**
+     * Converts this RoomSnapshot to JSON.
+     * @function toJSON
+     * @memberof RoomSnapshot
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    RoomSnapshot.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Gets the default type url for RoomSnapshot
+     * @function getTypeUrl
+     * @memberof RoomSnapshot
+     * @static
+     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns {string} The default type url
+     */
+    RoomSnapshot.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        if (typeUrlPrefix === undefined) {
+            typeUrlPrefix = "type.googleapis.com";
+        }
+        return typeUrlPrefix + "/RoomSnapshot";
+    };
+
+    return RoomSnapshot;
+})();
+
 $root.EnterContent = (function() {
 
     /**
@@ -1977,6 +2547,7 @@ $root.ServerPacket = (function() {
      * @property {ILoginConent|null} [login] ServerPacket login
      * @property {IEnterContent|null} [enter] ServerPacket enter
      * @property {IRealtimeContent|null} [realtime] ServerPacket realtime
+     * @property {IRoomSnapshot|null} [roomSnapshot] ServerPacket roomSnapshot
      */
 
     /**
@@ -2034,17 +2605,25 @@ $root.ServerPacket = (function() {
      */
     ServerPacket.prototype.realtime = null;
 
+    /**
+     * ServerPacket roomSnapshot.
+     * @member {IRoomSnapshot|null|undefined} roomSnapshot
+     * @memberof ServerPacket
+     * @instance
+     */
+    ServerPacket.prototype.roomSnapshot = null;
+
     // OneOf field names bound to virtual getters and setters
     var $oneOfFields;
 
     /**
      * ServerPacket content.
-     * @member {"login"|"enter"|"realtime"|undefined} content
+     * @member {"login"|"enter"|"realtime"|"roomSnapshot"|undefined} content
      * @memberof ServerPacket
      * @instance
      */
     Object.defineProperty(ServerPacket.prototype, "content", {
-        get: $util.oneOfGetter($oneOfFields = ["login", "enter", "realtime"]),
+        get: $util.oneOfGetter($oneOfFields = ["login", "enter", "realtime", "roomSnapshot"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
@@ -2082,6 +2661,8 @@ $root.ServerPacket = (function() {
             $root.EnterContent.encode(message.enter, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
         if (message.realtime != null && Object.hasOwnProperty.call(message, "realtime"))
             $root.RealtimeContent.encode(message.realtime, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+        if (message.roomSnapshot != null && Object.hasOwnProperty.call(message, "roomSnapshot"))
+            $root.RoomSnapshot.encode(message.roomSnapshot, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
         return writer;
     };
 
@@ -2136,6 +2717,10 @@ $root.ServerPacket = (function() {
                 }
             case 5: {
                     message.realtime = $root.RealtimeContent.decode(reader, reader.uint32());
+                    break;
+                }
+            case 6: {
+                    message.roomSnapshot = $root.RoomSnapshot.decode(reader, reader.uint32());
                     break;
                 }
             default:
@@ -2208,6 +2793,16 @@ $root.ServerPacket = (function() {
                     return "realtime." + error;
             }
         }
+        if (message.roomSnapshot != null && message.hasOwnProperty("roomSnapshot")) {
+            if (properties.content === 1)
+                return "content: multiple values";
+            properties.content = 1;
+            {
+                var error = $root.RoomSnapshot.verify(message.roomSnapshot);
+                if (error)
+                    return "roomSnapshot." + error;
+            }
+        }
         return null;
     };
 
@@ -2248,6 +2843,11 @@ $root.ServerPacket = (function() {
             if (typeof object.realtime !== "object")
                 throw TypeError(".ServerPacket.realtime: object expected");
             message.realtime = $root.RealtimeContent.fromObject(object.realtime);
+        }
+        if (object.roomSnapshot != null) {
+            if (typeof object.roomSnapshot !== "object")
+                throw TypeError(".ServerPacket.roomSnapshot: object expected");
+            message.roomSnapshot = $root.RoomSnapshot.fromObject(object.roomSnapshot);
         }
         return message;
     };
@@ -2294,6 +2894,11 @@ $root.ServerPacket = (function() {
             object.realtime = $root.RealtimeContent.toObject(message.realtime, options);
             if (options.oneofs)
                 object.content = "realtime";
+        }
+        if (message.roomSnapshot != null && message.hasOwnProperty("roomSnapshot")) {
+            object.roomSnapshot = $root.RoomSnapshot.toObject(message.roomSnapshot, options);
+            if (options.oneofs)
+                object.content = "roomSnapshot";
         }
         return object;
     };

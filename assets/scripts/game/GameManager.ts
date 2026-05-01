@@ -20,6 +20,7 @@ export class GameManager extends Component {
   private static _instance: GameManager;
   public currentRoom: Room | null = null;
   public playerId: string = "";
+  public shortId: number = 0;
   public wsClient: WebSocketClient | null = null;
 
   public static get instance() {
@@ -47,5 +48,16 @@ export class GameManager extends Component {
         serverPacket.realtime,
       );
     }
+  }
+
+  public syncRoomSnapshot(serverPacket: protos.IServerPacket) {
+    if (this.currentRoom == null) {
+      this.currentRoom = new Room();
+    }
+    if (!serverPacket.roomSnapshot) return;
+    this.currentRoom.syncRoomSnapshot(
+      (serverPacket.timestamp as number) || 0,
+      serverPacket.roomSnapshot,
+    );
   }
 }

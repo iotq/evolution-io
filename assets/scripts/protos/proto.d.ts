@@ -527,8 +527,8 @@ export class LoginConent implements ILoginConent {
 /** Properties of a PlayerContent. */
 export interface IPlayerContent {
 
-    /** PlayerContent id */
-    id?: (string|null);
+    /** PlayerContent shortId */
+    shortId?: (number|null);
 
     /** PlayerContent x */
     x?: (number|null);
@@ -552,8 +552,8 @@ export class PlayerContent implements IPlayerContent {
      */
     constructor(properties?: IPlayerContent);
 
-    /** PlayerContent id. */
-    public id: string;
+    /** PlayerContent shortId. */
+    public shortId: number;
 
     /** PlayerContent x. */
     public x: number;
@@ -639,6 +639,139 @@ export class PlayerContent implements IPlayerContent {
 
     /**
      * Gets the default type url for PlayerContent
+     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns The default type url
+     */
+    public static getTypeUrl(typeUrlPrefix?: string): string;
+}
+
+/** Properties of a PlayerFullInfo. */
+export interface IPlayerFullInfo {
+
+    /** PlayerFullInfo id */
+    id?: (string|null);
+
+    /** PlayerFullInfo name */
+    name?: (string|null);
+
+    /** PlayerFullInfo shortId */
+    shortId?: (number|null);
+
+    /** PlayerFullInfo x */
+    x?: (number|null);
+
+    /** PlayerFullInfo y */
+    y?: (number|null);
+
+    /** PlayerFullInfo rotation */
+    rotation?: (number|null);
+
+    /** PlayerFullInfo hp */
+    hp?: (number|null);
+}
+
+/** Represents a PlayerFullInfo. */
+export class PlayerFullInfo implements IPlayerFullInfo {
+
+    /**
+     * Constructs a new PlayerFullInfo.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IPlayerFullInfo);
+
+    /** PlayerFullInfo id. */
+    public id: string;
+
+    /** PlayerFullInfo name. */
+    public name: string;
+
+    /** PlayerFullInfo shortId. */
+    public shortId: number;
+
+    /** PlayerFullInfo x. */
+    public x: number;
+
+    /** PlayerFullInfo y. */
+    public y: number;
+
+    /** PlayerFullInfo rotation. */
+    public rotation: number;
+
+    /** PlayerFullInfo hp. */
+    public hp: number;
+
+    /**
+     * Creates a new PlayerFullInfo instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns PlayerFullInfo instance
+     */
+    public static create(properties?: IPlayerFullInfo): PlayerFullInfo;
+
+    /**
+     * Encodes the specified PlayerFullInfo message. Does not implicitly {@link PlayerFullInfo.verify|verify} messages.
+     * @param message PlayerFullInfo message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IPlayerFullInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified PlayerFullInfo message, length delimited. Does not implicitly {@link PlayerFullInfo.verify|verify} messages.
+     * @param message PlayerFullInfo message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IPlayerFullInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a PlayerFullInfo message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns PlayerFullInfo
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): PlayerFullInfo;
+
+    /**
+     * Decodes a PlayerFullInfo message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns PlayerFullInfo
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): PlayerFullInfo;
+
+    /**
+     * Verifies a PlayerFullInfo message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a PlayerFullInfo message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns PlayerFullInfo
+     */
+    public static fromObject(object: { [k: string]: any }): PlayerFullInfo;
+
+    /**
+     * Creates a plain object from a PlayerFullInfo message. Also converts values to other types if specified.
+     * @param message PlayerFullInfo
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: PlayerFullInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this PlayerFullInfo to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+
+    /**
+     * Gets the default type url for PlayerFullInfo
      * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
      * @returns The default type url
      */
@@ -736,6 +869,103 @@ export class RealtimeContent implements IRealtimeContent {
 
     /**
      * Gets the default type url for RealtimeContent
+     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns The default type url
+     */
+    public static getTypeUrl(typeUrlPrefix?: string): string;
+}
+
+/** Properties of a RoomSnapshot. */
+export interface IRoomSnapshot {
+
+    /** RoomSnapshot players */
+    players?: (IPlayerFullInfo[]|null);
+}
+
+/** Represents a RoomSnapshot. */
+export class RoomSnapshot implements IRoomSnapshot {
+
+    /**
+     * Constructs a new RoomSnapshot.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IRoomSnapshot);
+
+    /** RoomSnapshot players. */
+    public players: IPlayerFullInfo[];
+
+    /**
+     * Creates a new RoomSnapshot instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns RoomSnapshot instance
+     */
+    public static create(properties?: IRoomSnapshot): RoomSnapshot;
+
+    /**
+     * Encodes the specified RoomSnapshot message. Does not implicitly {@link RoomSnapshot.verify|verify} messages.
+     * @param message RoomSnapshot message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IRoomSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified RoomSnapshot message, length delimited. Does not implicitly {@link RoomSnapshot.verify|verify} messages.
+     * @param message RoomSnapshot message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IRoomSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a RoomSnapshot message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns RoomSnapshot
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): RoomSnapshot;
+
+    /**
+     * Decodes a RoomSnapshot message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns RoomSnapshot
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): RoomSnapshot;
+
+    /**
+     * Verifies a RoomSnapshot message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a RoomSnapshot message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns RoomSnapshot
+     */
+    public static fromObject(object: { [k: string]: any }): RoomSnapshot;
+
+    /**
+     * Creates a plain object from a RoomSnapshot message. Also converts values to other types if specified.
+     * @param message RoomSnapshot
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: RoomSnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this RoomSnapshot to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+
+    /**
+     * Gets the default type url for RoomSnapshot
      * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
      * @returns The default type url
      */
@@ -856,6 +1086,9 @@ export interface IServerPacket {
 
     /** ServerPacket realtime */
     realtime?: (IRealtimeContent|null);
+
+    /** ServerPacket roomSnapshot */
+    roomSnapshot?: (IRoomSnapshot|null);
 }
 
 /** Represents a ServerPacket. */
@@ -882,8 +1115,11 @@ export class ServerPacket implements IServerPacket {
     /** ServerPacket realtime. */
     public realtime?: (IRealtimeContent|null);
 
+    /** ServerPacket roomSnapshot. */
+    public roomSnapshot?: (IRoomSnapshot|null);
+
     /** ServerPacket content. */
-    public content?: ("login"|"enter"|"realtime");
+    public content?: ("login"|"enter"|"realtime"|"roomSnapshot");
 
     /**
      * Creates a new ServerPacket instance using the specified properties.

@@ -105,6 +105,9 @@ export interface IMoveContent {
 
     /** MoveContent y */
     y?: (number|null);
+
+    /** MoveContent rotation */
+    rotation?: (number|null);
 }
 
 /** Represents a MoveContent. */
@@ -121,6 +124,9 @@ export class MoveContent implements IMoveContent {
 
     /** MoveContent y. */
     public y: number;
+
+    /** MoveContent rotation. */
+    public rotation: number;
 
     /**
      * Creates a new MoveContent instance using the specified properties.
@@ -657,6 +663,9 @@ export interface IPlayerFullInfo {
     /** PlayerFullInfo shortId */
     shortId?: (number|null);
 
+    /** PlayerFullInfo characterId */
+    characterId?: (number|null);
+
     /** PlayerFullInfo x */
     x?: (number|null);
 
@@ -687,6 +696,9 @@ export class PlayerFullInfo implements IPlayerFullInfo {
 
     /** PlayerFullInfo shortId. */
     public shortId: number;
+
+    /** PlayerFullInfo characterId. */
+    public characterId: number;
 
     /** PlayerFullInfo x. */
     public x: number;

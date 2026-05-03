@@ -7,6 +7,7 @@
   "scripts": {
     "build-proto:pbjs": "pbjs -t static-module -w commonjs -o ./assets/scripts/protos/proto.js ./protos/*.proto",
     "build-proto:pbts": "pbts -o ./assets/scripts/protos/proto.d.ts ./assets/scripts/protos/*.js",
+    "build-proto": "npm run build-proto:pbjs && npm run build-proto:pbts",
     "gen-env": "node gen-config.js"
   },
   "dependencies": {

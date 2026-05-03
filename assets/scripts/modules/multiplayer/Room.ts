@@ -26,7 +26,7 @@ export class Room {
                 hp: player.hp,
             });
         }
-        
+
         this.updatePlayers(serverTime);
     }
     

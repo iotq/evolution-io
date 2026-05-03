@@ -222,6 +222,7 @@ $root.MoveContent = (function() {
      * @interface IMoveContent
      * @property {number|null} [x] MoveContent x
      * @property {number|null} [y] MoveContent y
+     * @property {number|null} [rotation] MoveContent rotation
      */
 
     /**
@@ -256,6 +257,14 @@ $root.MoveContent = (function() {
     MoveContent.prototype.y = 0;
 
     /**
+     * MoveContent rotation.
+     * @member {number} rotation
+     * @memberof MoveContent
+     * @instance
+     */
+    MoveContent.prototype.rotation = 0;
+
+    /**
      * Creates a new MoveContent instance using the specified properties.
      * @function create
      * @memberof MoveContent
@@ -283,6 +292,8 @@ $root.MoveContent = (function() {
             writer.uint32(/* id 1, wireType 5 =*/13).float(message.x);
         if (message.y != null && Object.hasOwnProperty.call(message, "y"))
             writer.uint32(/* id 2, wireType 5 =*/21).float(message.y);
+        if (message.rotation != null && Object.hasOwnProperty.call(message, "rotation"))
+            writer.uint32(/* id 3, wireType 5 =*/29).float(message.rotation);
         return writer;
     };
 
@@ -327,6 +338,10 @@ $root.MoveContent = (function() {
                     message.y = reader.float();
                     break;
                 }
+            case 3: {
+                    message.rotation = reader.float();
+                    break;
+                }
             default:
                 reader.skipType(tag & 7);
                 break;
@@ -368,6 +383,9 @@ $root.MoveContent = (function() {
         if (message.y != null && message.hasOwnProperty("y"))
             if (typeof message.y !== "number")
                 return "y: number expected";
+        if (message.rotation != null && message.hasOwnProperty("rotation"))
+            if (typeof message.rotation !== "number")
+                return "rotation: number expected";
         return null;
     };
 
@@ -387,6 +405,8 @@ $root.MoveContent = (function() {
             message.x = Number(object.x);
         if (object.y != null)
             message.y = Number(object.y);
+        if (object.rotation != null)
+            message.rotation = Number(object.rotation);
         return message;
     };
 
@@ -406,11 +426,14 @@ $root.MoveContent = (function() {
         if (options.defaults) {
             object.x = 0;
             object.y = 0;
+            object.rotation = 0;
         }
         if (message.x != null && message.hasOwnProperty("x"))
             object.x = options.json && !isFinite(message.x) ? String(message.x) : message.x;
         if (message.y != null && message.hasOwnProperty("y"))
             object.y = options.json && !isFinite(message.y) ? String(message.y) : message.y;
+        if (message.rotation != null && message.hasOwnProperty("rotation"))
+            object.rotation = options.json && !isFinite(message.rotation) ? String(message.rotation) : message.rotation;
         return object;
     };
 
@@ -1544,6 +1567,7 @@ $root.PlayerFullInfo = (function() {
      * @property {string|null} [id] PlayerFullInfo id
      * @property {string|null} [name] PlayerFullInfo name
      * @property {number|null} [shortId] PlayerFullInfo shortId
+     * @property {number|null} [characterId] PlayerFullInfo characterId
      * @property {number|null} [x] PlayerFullInfo x
      * @property {number|null} [y] PlayerFullInfo y
      * @property {number|null} [rotation] PlayerFullInfo rotation
@@ -1588,6 +1612,14 @@ $root.PlayerFullInfo = (function() {
      * @instance
      */
     PlayerFullInfo.prototype.shortId = 0;
+
+    /**
+     * PlayerFullInfo characterId.
+     * @member {number} characterId
+     * @memberof PlayerFullInfo
+     * @instance
+     */
+    PlayerFullInfo.prototype.characterId = 0;
 
     /**
      * PlayerFullInfo x.
@@ -1651,14 +1683,16 @@ $root.PlayerFullInfo = (function() {
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
         if (message.shortId != null && Object.hasOwnProperty.call(message, "shortId"))
             writer.uint32(/* id 3, wireType 0 =*/24).int32(message.shortId);
+        if (message.characterId != null && Object.hasOwnProperty.call(message, "characterId"))
+            writer.uint32(/* id 4, wireType 0 =*/32).int32(message.characterId);
         if (message.x != null && Object.hasOwnProperty.call(message, "x"))
-            writer.uint32(/* id 4, wireType 5 =*/37).float(message.x);
+            writer.uint32(/* id 5, wireType 5 =*/45).float(message.x);
         if (message.y != null && Object.hasOwnProperty.call(message, "y"))
-            writer.uint32(/* id 5, wireType 5 =*/45).float(message.y);
+            writer.uint32(/* id 6, wireType 5 =*/53).float(message.y);
         if (message.rotation != null && Object.hasOwnProperty.call(message, "rotation"))
-            writer.uint32(/* id 6, wireType 5 =*/53).float(message.rotation);
+            writer.uint32(/* id 7, wireType 5 =*/61).float(message.rotation);
         if (message.hp != null && Object.hasOwnProperty.call(message, "hp"))
-            writer.uint32(/* id 7, wireType 0 =*/56).int32(message.hp);
+            writer.uint32(/* id 8, wireType 0 =*/64).int32(message.hp);
         return writer;
     };
 
@@ -1708,18 +1742,22 @@ $root.PlayerFullInfo = (function() {
                     break;
                 }
             case 4: {
-                    message.x = reader.float();
+                    message.characterId = reader.int32();
                     break;
                 }
             case 5: {
-                    message.y = reader.float();
+                    message.x = reader.float();
                     break;
                 }
             case 6: {
-                    message.rotation = reader.float();
+                    message.y = reader.float();
                     break;
                 }
             case 7: {
+                    message.rotation = reader.float();
+                    break;
+                }
+            case 8: {
                     message.hp = reader.int32();
                     break;
                 }
@@ -1767,6 +1805,9 @@ $root.PlayerFullInfo = (function() {
         if (message.shortId != null && message.hasOwnProperty("shortId"))
             if (!$util.isInteger(message.shortId))
                 return "shortId: integer expected";
+        if (message.characterId != null && message.hasOwnProperty("characterId"))
+            if (!$util.isInteger(message.characterId))
+                return "characterId: integer expected";
         if (message.x != null && message.hasOwnProperty("x"))
             if (typeof message.x !== "number")
                 return "x: number expected";
@@ -1800,6 +1841,8 @@ $root.PlayerFullInfo = (function() {
             message.name = String(object.name);
         if (object.shortId != null)
             message.shortId = object.shortId | 0;
+        if (object.characterId != null)
+            message.characterId = object.characterId | 0;
         if (object.x != null)
             message.x = Number(object.x);
         if (object.y != null)
@@ -1828,6 +1871,7 @@ $root.PlayerFullInfo = (function() {
             object.id = "";
             object.name = "";
             object.shortId = 0;
+            object.characterId = 0;
             object.x = 0;
             object.y = 0;
             object.rotation = 0;
@@ -1839,6 +1883,8 @@ $root.PlayerFullInfo = (function() {
             object.name = message.name;
         if (message.shortId != null && message.hasOwnProperty("shortId"))
             object.shortId = message.shortId;
+        if (message.characterId != null && message.hasOwnProperty("characterId"))
+            object.characterId = message.characterId;
         if (message.x != null && message.hasOwnProperty("x"))
             object.x = options.json && !isFinite(message.x) ? String(message.x) : message.x;
         if (message.y != null && message.hasOwnProperty("y"))

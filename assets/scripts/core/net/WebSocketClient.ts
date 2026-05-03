@@ -85,18 +85,19 @@ export class WebSocketClient {
     if (this.logTimer > 0) {
       this.logTimer -= 1;
     } else {
-      console.log(message);
+      //console.log(message);
       this.logTimer = this.logInterval;
     }
   }
 
-  public sendPlayerPos(data: Vec3) {
+  public sendPlayerPos(data: Vec3, rotation: number = 0) {
     if (!this.isReady()) return;
     const packet = protos.ClientPacket.create({
       timestamp: Date.now(),
       move: {
         x: data.x,
         y: data.y,
+        rotation: rotation,
       },
     });
     const buffer = protos.ClientPacket.encode(packet).finish();

@@ -12,6 +12,8 @@ import {
 import { WebSocketClient } from "../core/net/WebSocketClient";
 import { Room } from "../modules/multiplayer/Room";
 import protos from "../protos/proto.js";
+import { GameSettings } from "../configs/GameSettings";
+import { CameraController } from "./CameraController";
 
 const { ccclass, property } = _decorator;
 
@@ -22,6 +24,11 @@ export class GameManager extends Component {
   public playerId: string = "";
   public shortId: number = 0;
   public wsClient: WebSocketClient | null = null;
+  @property(CameraController)
+  public cameraController: CameraController | null = null;
+
+  @property(GameSettings)
+  public config: GameSettings = new GameSettings();
 
   public static get instance() {
     return this._instance;

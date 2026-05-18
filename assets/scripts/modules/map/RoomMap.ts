@@ -7,11 +7,11 @@ const { ccclass, property } = _decorator;
 
 @ccclass("RoomMap")
 export class RoomMap extends Component {
-  @property({ type: Prefab })
+  @property(Prefab)
   public playerPawnPrefab: Prefab | null = null;
-  @property({ type: Node })
+  @property(Node)
   public entityLayer: Node | null = null;
-  @property({ type: CircleCollider2D })
+  @property(CircleCollider2D)
   public mapBoundary: CircleCollider2D | null = null;
   
   private static _instance: RoomMap;
@@ -75,7 +75,7 @@ export class RoomMap extends Component {
     const playerPawn = newPlayerNode.getComponent("PlayerPawn") as PlayerPawn;
     playerPawn.shortId = playerContent.shortId || 0;
     const currentRoom = GameManager.instance.currentRoom;
-    const playerInfo = currentRoom?.playerInfo.get(playerPawn.shortId);
+    const playerInfo = currentRoom?.playerInfos.get(playerPawn.shortId);
     if(playerInfo)
     {
       playerPawn.id = playerInfo.id || "";

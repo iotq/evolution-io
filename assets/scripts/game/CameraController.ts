@@ -4,7 +4,7 @@ const { ccclass, property } = _decorator;
 @ccclass('CameraController')
 export class CameraController extends Component {
     
-    @property({ type: Camera })
+    @property(Camera)
     public camera: Camera | null = null;
     public target: Node | null = null;
 

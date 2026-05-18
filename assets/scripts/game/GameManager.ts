@@ -67,4 +67,11 @@ export class GameManager extends Component {
       serverPacket.roomSnapshot,
     );
   }
+
+  public getCurrentPlayerData(): protos.IPlayerFullInfo | null
+  {
+    if(!this.currentRoom || !this.currentRoom.playerInfos.has(this.shortId)) return null;
+    
+    return this.currentRoom.playerInfos.get(this.shortId) || null;
+  }
 }

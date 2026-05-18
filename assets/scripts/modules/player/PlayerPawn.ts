@@ -28,6 +28,7 @@ export class PlayerPawn extends Component {
   public playerName: string = "";
   public shortId: number = 0;
   public hp: number = 0;
+  public mass: number = 1;
 
   private snapshotBuffer: Snapshot[] = [];
 

@@ -547,6 +547,9 @@ export interface IPlayerContent {
 
     /** PlayerContent hp */
     hp?: (number|null);
+
+    /** PlayerContent mass */
+    mass?: (number|null);
 }
 
 /** Represents a PlayerContent. */
@@ -572,6 +575,9 @@ export class PlayerContent implements IPlayerContent {
 
     /** PlayerContent hp. */
     public hp: number;
+
+    /** PlayerContent mass. */
+    public mass: number;
 
     /**
      * Creates a new PlayerContent instance using the specified properties.
@@ -677,6 +683,9 @@ export interface IPlayerFullInfo {
 
     /** PlayerFullInfo hp */
     hp?: (number|null);
+
+    /** PlayerFullInfo mass */
+    mass?: (number|null);
 }
 
 /** Represents a PlayerFullInfo. */
@@ -711,6 +720,9 @@ export class PlayerFullInfo implements IPlayerFullInfo {
 
     /** PlayerFullInfo hp. */
     public hp: number;
+
+    /** PlayerFullInfo mass. */
+    public mass: number;
 
     /**
      * Creates a new PlayerFullInfo instance using the specified properties.

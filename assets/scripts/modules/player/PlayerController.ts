@@ -8,7 +8,6 @@ import {
   input,
   KeyCode,
   Node,
-  RigidBody2D,
   UITransform,
   Vec2,
   Vec3,
@@ -24,8 +23,6 @@ export class PlayerController extends Component {
   @property
   moveSpeed: number = 300;
 
-  private rigidbody: RigidBody2D | null = null;
-
   private _mouseMoveDir: Vec3 = new Vec3(0, 0, 0);
 
   private _pendingInput: Vec3[] = [];
@@ -34,10 +31,6 @@ export class PlayerController extends Component {
   private isMouseDown = false;
 
   private keyPressed: Record<number, boolean> = {};
-
-  protected start(): void {
-    this.rigidbody = this.getComponent(RigidBody2D);
-  }
 
   onEnable() {
     input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
@@ -71,7 +64,6 @@ export class PlayerController extends Component {
       movement.y = dir.y * this.moveSpeed * dt;
     }
 
-    this.rigidbody!.linearVelocity = Vec2.ZERO;
     if (movement.lengthSqr() == 0) return;
 
     pos.x += movement.x;
@@ -80,9 +72,8 @@ export class PlayerController extends Component {
       return; // 超出邊界則不移動
     }
     this._pendingInput.push(movement);
-    this.rigidbody!.linearVelocity = movement.toVec2();
-
     const pawn = this.getComponent(PlayerPawn)!;
+    pawn.updatePosition(pos);
     const rotation = Math.atan2(movement.y, movement.x) * (180 / Math.PI) - 90;
     pawn.node.setRotationFromEuler(0, 0, rotation);
 

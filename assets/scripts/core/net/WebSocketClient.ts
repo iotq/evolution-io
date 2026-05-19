@@ -8,9 +8,10 @@ export class WebSocketClient {
   private logTimer: number = 0;
   private readonly logInterval: number = 1;
 
-  private readonly retryConnectTimeout: number = 1000;
+  private readonly retryConnectTimeout: number = 2000;
 
   public startAutoConnecting() {
+    this.connect();
     setInterval(this.connect.bind(this), this.retryConnectTimeout);
   }
 

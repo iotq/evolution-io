@@ -31,7 +31,6 @@ export class PlayerController extends Component {
   private _pendingInput: Vec3[] = [];
   private started: boolean = false;
   private sendPosTimer = 0.1;
-  private lastSyncTimestamp: number = 0;
   private isMouseDown = false;
 
   private keyPressed: Record<number, boolean> = {};
@@ -63,7 +62,6 @@ export class PlayerController extends Component {
 
     // 根據當前移動方向計算移動增量
     if (this.isMouseDown) {
-      console.log("mouse move", this._mouseMoveDir);
       const dir = this._mouseMoveDir.normalize();
       movement.x = dir.x * this.moveSpeed * dt;
       movement.y = dir.y * this.moveSpeed * dt;

@@ -1,19 +1,22 @@
-import { _decorator, CircleCollider2D, Component, instantiate, Node, Prefab } from "cc";
+import { _decorator, CircleCollider2D, Component, instantiate, Node, Prefab, Vec3 } from "cc";
 import { PlayerPawn } from "../player/PlayerPawn";
 import protos from "../../protos/proto.js";
 import { GameManager } from "../../game/GameManager";
 import { PlayerController } from "../player/PlayerController";
+import { Food } from "./Food";
 const { ccclass, property } = _decorator;
 
 @ccclass("RoomMap")
 export class RoomMap extends Component {
   @property(Prefab)
   public playerPawnPrefab: Prefab | null = null;
+  @property(Prefab)
+  public foodPrefab: Prefab | null = null;
   @property(Node)
   public entityLayer: Node | null = null;
   @property(CircleCollider2D)
   public mapBoundary: CircleCollider2D | null = null;
-  
+
   private static _instance: RoomMap;
 
   public static get instance() {
@@ -26,6 +29,36 @@ export class RoomMap extends Component {
 
   update(deltaTime: number) {}
 
+  public syncFoodsData(foodContents: protos.IFoodContent[])
+  {
+
+    if (!this.entityLayer) return;
+
+    const foodsInMap = this.entityLayer.getComponentsInChildren(
+      "Food",
+    ) as Food[];
+
+    // 同步現有數據，刪除不存在的食物
+    for (let i = foodsInMap.length - 1; i >= 0; i--) {
+      const p = foodsInMap[i];
+      const found = foodContents.find((pc) => pc.id === p.id);
+      if (!found) {
+        p.node.destroy();
+        foodsInMap.splice(i, 1);
+      }
+    }
+    // 新增新的食物
+    for (const f of foodContents) {
+      if (foodsInMap.some((p) => p.id === f.id)) continue;
+      const newFoodNode = instantiate(this.foodPrefab!);
+      const foodScript = newFoodNode.getComponent("Food") as Food;
+      foodScript.id = f.id!;
+      this.entityLayer?.addChild(newFoodNode);
+      newFoodNode.setPosition(new Vec3(f.x || 0, f.y || 0));
+    }
+
+  }
+
   public syncPlayersData(
     serverTime: number,
     playerContents: protos.IPlayerContent[],
@@ -35,7 +68,7 @@ export class RoomMap extends Component {
       (p) => p.shortId === GameManager.instance.shortId,
     );
 
-    const playersInMap = this.entityLayer.getComponentsInChildren(
+    const playersInMap = this.entityLayer.getComponentsInChildren<PlayerPawn>(
       "PlayerPawn",
     ) as PlayerPawn[];
 

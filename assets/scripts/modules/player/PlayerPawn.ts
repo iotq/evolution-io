@@ -29,7 +29,7 @@ export class PlayerPawn extends Component {
   public shortId: number = 0;
   public hp: number = 0;
   public mass: number = 1;
-
+  public isDead: boolean = false;
   private snapshotBuffer: Snapshot[] = [];
 
   start() {}
@@ -56,9 +56,17 @@ export class PlayerPawn extends Component {
       this.node.setPosition(interpolatedPos);
       this.node.setRotationFromEuler(0, 0, latestSnapshot.rotation || 0);
     }
+
+    const radius = Math.sqrt(this.mass / Math.PI);
+    this.node.setScale(new Vec3(radius, radius, radius));
+    if(this.isDead){
+      this.node.active = false;
+    }
   }
 
   public syncPlayerContent(serverTime: number, data: protos.IPlayerContent) {
+    this.mass = data.mass || 1;
+    this.isDead = !!data.isDead;
     const currentPlayer = this.getComponent(PlayerController);
     if (currentPlayer) {
       currentPlayer.syncFromServer(data);

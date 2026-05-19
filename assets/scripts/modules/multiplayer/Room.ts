@@ -5,6 +5,9 @@ import { RoomMap } from "../map/RoomMap";
 export class Room {
   public playerInfos: Map<number, protos.IPlayerFullInfo> = new Map();
   public playersRealtimes: Map<number, protos.IPlayerContent> = new Map();
+  public foodInfos: Map<number, protos.IFoodContent> = new Map();
+
+  public started: boolean = false;
 
   public syncRoomSnapshot(
     serverTime: number,
@@ -26,10 +29,20 @@ export class Room {
         y: player.y,
         rotation: player.rotation,
         hp: player.hp,
+        mass: player.mass,
+        isDead: player.isDead,
       });
+    }
+    this.foodInfos.clear();
+    for(const food of roomSnapshot.foods || [])
+    {
+      if(!food.id || food.isDead) continue;
+      this.foodInfos.set(food.id, food);
     }
 
     this.updatePlayers(serverTime);
+    this.updateFoods();
+    this.started = true;
   }
 
   public syncRealtimeContent(
@@ -50,6 +63,8 @@ export class Room {
         existingContent.rotation =
           playerContent.rotation ?? existingContent.rotation;
         existingContent.hp = playerContent.hp ?? existingContent.hp;
+        existingContent.mass = playerContent.mass ?? existingContent.mass;
+        existingContent.isDead = playerContent.isDead || existingContent.isDead;
       } else {
         this.playersRealtimes.set(id, playerContent);
       }
@@ -59,7 +74,23 @@ export class Room {
       });
     }
 
+    for(const foodContent of realtimeContent.foods || [])
+    {
+      if(!foodContent.id) continue;
+      if(!this.foodInfos.has(foodContent.id)){
+        if(!foodContent.isDead)
+        {
+          this.foodInfos.set(foodContent.id, foodContent);
+        }
+      }else {
+        if(foodContent.isDead){
+          this.foodInfos.delete(foodContent.id);
+        }
+      }
+    }
+
     this.updatePlayers(serverTime);
+    this.updateFoods();
   }
 
   public updatePlayers(serverTime: number) {
@@ -67,5 +98,10 @@ export class Room {
       serverTime,
       Array.from(this.playersRealtimes.values()),
     );
+  }
+
+  public updateFoods()
+  {
+    RoomMap.instance.syncFoodsData(Array.from(this.foodInfos.values()));
   }
 }

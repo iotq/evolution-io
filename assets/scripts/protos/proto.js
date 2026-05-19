@@ -1272,6 +1272,7 @@ $root.PlayerContent = (function() {
      * @property {number|null} [rotation] PlayerContent rotation
      * @property {number|null} [hp] PlayerContent hp
      * @property {number|null} [mass] PlayerContent mass
+     * @property {boolean|null} [isDead] PlayerContent isDead
      */
 
     /**
@@ -1338,6 +1339,14 @@ $root.PlayerContent = (function() {
     PlayerContent.prototype.mass = 0;
 
     /**
+     * PlayerContent isDead.
+     * @member {boolean} isDead
+     * @memberof PlayerContent
+     * @instance
+     */
+    PlayerContent.prototype.isDead = false;
+
+    /**
      * Creates a new PlayerContent instance using the specified properties.
      * @function create
      * @memberof PlayerContent
@@ -1373,6 +1382,8 @@ $root.PlayerContent = (function() {
             writer.uint32(/* id 5, wireType 0 =*/40).int32(message.hp);
         if (message.mass != null && Object.hasOwnProperty.call(message, "mass"))
             writer.uint32(/* id 6, wireType 0 =*/48).int32(message.mass);
+        if (message.isDead != null && Object.hasOwnProperty.call(message, "isDead"))
+            writer.uint32(/* id 7, wireType 0 =*/56).bool(message.isDead);
         return writer;
     };
 
@@ -1433,6 +1444,10 @@ $root.PlayerContent = (function() {
                     message.mass = reader.int32();
                     break;
                 }
+            case 7: {
+                    message.isDead = reader.bool();
+                    break;
+                }
             default:
                 reader.skipType(tag & 7);
                 break;
@@ -1486,6 +1501,9 @@ $root.PlayerContent = (function() {
         if (message.mass != null && message.hasOwnProperty("mass"))
             if (!$util.isInteger(message.mass))
                 return "mass: integer expected";
+        if (message.isDead != null && message.hasOwnProperty("isDead"))
+            if (typeof message.isDead !== "boolean")
+                return "isDead: boolean expected";
         return null;
     };
 
@@ -1513,6 +1531,8 @@ $root.PlayerContent = (function() {
             message.hp = object.hp | 0;
         if (object.mass != null)
             message.mass = object.mass | 0;
+        if (object.isDead != null)
+            message.isDead = Boolean(object.isDead);
         return message;
     };
 
@@ -1536,6 +1556,7 @@ $root.PlayerContent = (function() {
             object.rotation = 0;
             object.hp = 0;
             object.mass = 0;
+            object.isDead = false;
         }
         if (message.shortId != null && message.hasOwnProperty("shortId"))
             object.shortId = message.shortId;
@@ -1549,6 +1570,8 @@ $root.PlayerContent = (function() {
             object.hp = message.hp;
         if (message.mass != null && message.hasOwnProperty("mass"))
             object.mass = message.mass;
+        if (message.isDead != null && message.hasOwnProperty("isDead"))
+            object.isDead = message.isDead;
         return object;
     };
 
@@ -1596,6 +1619,7 @@ $root.PlayerFullInfo = (function() {
      * @property {number|null} [rotation] PlayerFullInfo rotation
      * @property {number|null} [hp] PlayerFullInfo hp
      * @property {number|null} [mass] PlayerFullInfo mass
+     * @property {boolean|null} [isDead] PlayerFullInfo isDead
      */
 
     /**
@@ -1686,6 +1710,14 @@ $root.PlayerFullInfo = (function() {
     PlayerFullInfo.prototype.mass = 0;
 
     /**
+     * PlayerFullInfo isDead.
+     * @member {boolean} isDead
+     * @memberof PlayerFullInfo
+     * @instance
+     */
+    PlayerFullInfo.prototype.isDead = false;
+
+    /**
      * Creates a new PlayerFullInfo instance using the specified properties.
      * @function create
      * @memberof PlayerFullInfo
@@ -1727,6 +1759,8 @@ $root.PlayerFullInfo = (function() {
             writer.uint32(/* id 8, wireType 0 =*/64).int32(message.hp);
         if (message.mass != null && Object.hasOwnProperty.call(message, "mass"))
             writer.uint32(/* id 9, wireType 0 =*/72).int32(message.mass);
+        if (message.isDead != null && Object.hasOwnProperty.call(message, "isDead"))
+            writer.uint32(/* id 10, wireType 0 =*/80).bool(message.isDead);
         return writer;
     };
 
@@ -1799,6 +1833,10 @@ $root.PlayerFullInfo = (function() {
                     message.mass = reader.int32();
                     break;
                 }
+            case 10: {
+                    message.isDead = reader.bool();
+                    break;
+                }
             default:
                 reader.skipType(tag & 7);
                 break;
@@ -1861,6 +1899,9 @@ $root.PlayerFullInfo = (function() {
         if (message.mass != null && message.hasOwnProperty("mass"))
             if (!$util.isInteger(message.mass))
                 return "mass: integer expected";
+        if (message.isDead != null && message.hasOwnProperty("isDead"))
+            if (typeof message.isDead !== "boolean")
+                return "isDead: boolean expected";
         return null;
     };
 
@@ -1894,6 +1935,8 @@ $root.PlayerFullInfo = (function() {
             message.hp = object.hp | 0;
         if (object.mass != null)
             message.mass = object.mass | 0;
+        if (object.isDead != null)
+            message.isDead = Boolean(object.isDead);
         return message;
     };
 
@@ -1920,6 +1963,7 @@ $root.PlayerFullInfo = (function() {
             object.rotation = 0;
             object.hp = 0;
             object.mass = 0;
+            object.isDead = false;
         }
         if (message.id != null && message.hasOwnProperty("id"))
             object.id = message.id;
@@ -1939,6 +1983,8 @@ $root.PlayerFullInfo = (function() {
             object.hp = message.hp;
         if (message.mass != null && message.hasOwnProperty("mass"))
             object.mass = message.mass;
+        if (message.isDead != null && message.hasOwnProperty("isDead"))
+            object.isDead = message.isDead;
         return object;
     };
 
@@ -1971,6 +2017,281 @@ $root.PlayerFullInfo = (function() {
     return PlayerFullInfo;
 })();
 
+$root.FoodContent = (function() {
+
+    /**
+     * Properties of a FoodContent.
+     * @exports IFoodContent
+     * @interface IFoodContent
+     * @property {number|null} [id] FoodContent id
+     * @property {number|null} [x] FoodContent x
+     * @property {number|null} [y] FoodContent y
+     * @property {boolean|null} [isDead] FoodContent isDead
+     */
+
+    /**
+     * Constructs a new FoodContent.
+     * @exports FoodContent
+     * @classdesc Represents a FoodContent.
+     * @implements IFoodContent
+     * @constructor
+     * @param {IFoodContent=} [properties] Properties to set
+     */
+    function FoodContent(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * FoodContent id.
+     * @member {number} id
+     * @memberof FoodContent
+     * @instance
+     */
+    FoodContent.prototype.id = 0;
+
+    /**
+     * FoodContent x.
+     * @member {number} x
+     * @memberof FoodContent
+     * @instance
+     */
+    FoodContent.prototype.x = 0;
+
+    /**
+     * FoodContent y.
+     * @member {number} y
+     * @memberof FoodContent
+     * @instance
+     */
+    FoodContent.prototype.y = 0;
+
+    /**
+     * FoodContent isDead.
+     * @member {boolean} isDead
+     * @memberof FoodContent
+     * @instance
+     */
+    FoodContent.prototype.isDead = false;
+
+    /**
+     * Creates a new FoodContent instance using the specified properties.
+     * @function create
+     * @memberof FoodContent
+     * @static
+     * @param {IFoodContent=} [properties] Properties to set
+     * @returns {FoodContent} FoodContent instance
+     */
+    FoodContent.create = function create(properties) {
+        return new FoodContent(properties);
+    };
+
+    /**
+     * Encodes the specified FoodContent message. Does not implicitly {@link FoodContent.verify|verify} messages.
+     * @function encode
+     * @memberof FoodContent
+     * @static
+     * @param {IFoodContent} message FoodContent message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    FoodContent.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+            writer.uint32(/* id 1, wireType 0 =*/8).int32(message.id);
+        if (message.x != null && Object.hasOwnProperty.call(message, "x"))
+            writer.uint32(/* id 2, wireType 5 =*/21).float(message.x);
+        if (message.y != null && Object.hasOwnProperty.call(message, "y"))
+            writer.uint32(/* id 3, wireType 5 =*/29).float(message.y);
+        if (message.isDead != null && Object.hasOwnProperty.call(message, "isDead"))
+            writer.uint32(/* id 4, wireType 0 =*/32).bool(message.isDead);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified FoodContent message, length delimited. Does not implicitly {@link FoodContent.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof FoodContent
+     * @static
+     * @param {IFoodContent} message FoodContent message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    FoodContent.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a FoodContent message from the specified reader or buffer.
+     * @function decode
+     * @memberof FoodContent
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {FoodContent} FoodContent
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    FoodContent.decode = function decode(reader, length, error) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.FoodContent();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            if (tag === error)
+                break;
+            switch (tag >>> 3) {
+            case 1: {
+                    message.id = reader.int32();
+                    break;
+                }
+            case 2: {
+                    message.x = reader.float();
+                    break;
+                }
+            case 3: {
+                    message.y = reader.float();
+                    break;
+                }
+            case 4: {
+                    message.isDead = reader.bool();
+                    break;
+                }
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a FoodContent message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof FoodContent
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {FoodContent} FoodContent
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    FoodContent.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a FoodContent message.
+     * @function verify
+     * @memberof FoodContent
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    FoodContent.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.id != null && message.hasOwnProperty("id"))
+            if (!$util.isInteger(message.id))
+                return "id: integer expected";
+        if (message.x != null && message.hasOwnProperty("x"))
+            if (typeof message.x !== "number")
+                return "x: number expected";
+        if (message.y != null && message.hasOwnProperty("y"))
+            if (typeof message.y !== "number")
+                return "y: number expected";
+        if (message.isDead != null && message.hasOwnProperty("isDead"))
+            if (typeof message.isDead !== "boolean")
+                return "isDead: boolean expected";
+        return null;
+    };
+
+    /**
+     * Creates a FoodContent message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof FoodContent
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {FoodContent} FoodContent
+     */
+    FoodContent.fromObject = function fromObject(object) {
+        if (object instanceof $root.FoodContent)
+            return object;
+        var message = new $root.FoodContent();
+        if (object.id != null)
+            message.id = object.id | 0;
+        if (object.x != null)
+            message.x = Number(object.x);
+        if (object.y != null)
+            message.y = Number(object.y);
+        if (object.isDead != null)
+            message.isDead = Boolean(object.isDead);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a FoodContent message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof FoodContent
+     * @static
+     * @param {FoodContent} message FoodContent
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    FoodContent.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.id = 0;
+            object.x = 0;
+            object.y = 0;
+            object.isDead = false;
+        }
+        if (message.id != null && message.hasOwnProperty("id"))
+            object.id = message.id;
+        if (message.x != null && message.hasOwnProperty("x"))
+            object.x = options.json && !isFinite(message.x) ? String(message.x) : message.x;
+        if (message.y != null && message.hasOwnProperty("y"))
+            object.y = options.json && !isFinite(message.y) ? String(message.y) : message.y;
+        if (message.isDead != null && message.hasOwnProperty("isDead"))
+            object.isDead = message.isDead;
+        return object;
+    };
+
+    /**
+     * Converts this FoodContent to JSON.
+     * @function toJSON
+     * @memberof FoodContent
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    FoodContent.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Gets the default type url for FoodContent
+     * @function getTypeUrl
+     * @memberof FoodContent
+     * @static
+     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns {string} The default type url
+     */
+    FoodContent.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        if (typeUrlPrefix === undefined) {
+            typeUrlPrefix = "type.googleapis.com";
+        }
+        return typeUrlPrefix + "/FoodContent";
+    };
+
+    return FoodContent;
+})();
+
 $root.RealtimeContent = (function() {
 
     /**
@@ -1978,6 +2299,7 @@ $root.RealtimeContent = (function() {
      * @exports IRealtimeContent
      * @interface IRealtimeContent
      * @property {Array.<IPlayerContent>|null} [players] RealtimeContent players
+     * @property {Array.<IFoodContent>|null} [foods] RealtimeContent foods
      */
 
     /**
@@ -1990,6 +2312,7 @@ $root.RealtimeContent = (function() {
      */
     function RealtimeContent(properties) {
         this.players = [];
+        this.foods = [];
         if (properties)
             for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                 if (properties[keys[i]] != null)
@@ -2003,6 +2326,14 @@ $root.RealtimeContent = (function() {
      * @instance
      */
     RealtimeContent.prototype.players = $util.emptyArray;
+
+    /**
+     * RealtimeContent foods.
+     * @member {Array.<IFoodContent>} foods
+     * @memberof RealtimeContent
+     * @instance
+     */
+    RealtimeContent.prototype.foods = $util.emptyArray;
 
     /**
      * Creates a new RealtimeContent instance using the specified properties.
@@ -2031,6 +2362,9 @@ $root.RealtimeContent = (function() {
         if (message.players != null && message.players.length)
             for (var i = 0; i < message.players.length; ++i)
                 $root.PlayerContent.encode(message.players[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+        if (message.foods != null && message.foods.length)
+            for (var i = 0; i < message.foods.length; ++i)
+                $root.FoodContent.encode(message.foods[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
         return writer;
     };
 
@@ -2071,6 +2405,12 @@ $root.RealtimeContent = (function() {
                     if (!(message.players && message.players.length))
                         message.players = [];
                     message.players.push($root.PlayerContent.decode(reader, reader.uint32()));
+                    break;
+                }
+            case 2: {
+                    if (!(message.foods && message.foods.length))
+                        message.foods = [];
+                    message.foods.push($root.FoodContent.decode(reader, reader.uint32()));
                     break;
                 }
             default:
@@ -2117,6 +2457,15 @@ $root.RealtimeContent = (function() {
                     return "players." + error;
             }
         }
+        if (message.foods != null && message.hasOwnProperty("foods")) {
+            if (!Array.isArray(message.foods))
+                return "foods: array expected";
+            for (var i = 0; i < message.foods.length; ++i) {
+                var error = $root.FoodContent.verify(message.foods[i]);
+                if (error)
+                    return "foods." + error;
+            }
+        }
         return null;
     };
 
@@ -2142,6 +2491,16 @@ $root.RealtimeContent = (function() {
                 message.players[i] = $root.PlayerContent.fromObject(object.players[i]);
             }
         }
+        if (object.foods) {
+            if (!Array.isArray(object.foods))
+                throw TypeError(".RealtimeContent.foods: array expected");
+            message.foods = [];
+            for (var i = 0; i < object.foods.length; ++i) {
+                if (typeof object.foods[i] !== "object")
+                    throw TypeError(".RealtimeContent.foods: object expected");
+                message.foods[i] = $root.FoodContent.fromObject(object.foods[i]);
+            }
+        }
         return message;
     };
 
@@ -2158,12 +2517,19 @@ $root.RealtimeContent = (function() {
         if (!options)
             options = {};
         var object = {};
-        if (options.arrays || options.defaults)
+        if (options.arrays || options.defaults) {
             object.players = [];
+            object.foods = [];
+        }
         if (message.players && message.players.length) {
             object.players = [];
             for (var j = 0; j < message.players.length; ++j)
                 object.players[j] = $root.PlayerContent.toObject(message.players[j], options);
+        }
+        if (message.foods && message.foods.length) {
+            object.foods = [];
+            for (var j = 0; j < message.foods.length; ++j)
+                object.foods[j] = $root.FoodContent.toObject(message.foods[j], options);
         }
         return object;
     };
@@ -2204,6 +2570,7 @@ $root.RoomSnapshot = (function() {
      * @exports IRoomSnapshot
      * @interface IRoomSnapshot
      * @property {Array.<IPlayerFullInfo>|null} [players] RoomSnapshot players
+     * @property {Array.<IFoodContent>|null} [foods] RoomSnapshot foods
      */
 
     /**
@@ -2216,6 +2583,7 @@ $root.RoomSnapshot = (function() {
      */
     function RoomSnapshot(properties) {
         this.players = [];
+        this.foods = [];
         if (properties)
             for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                 if (properties[keys[i]] != null)
@@ -2229,6 +2597,14 @@ $root.RoomSnapshot = (function() {
      * @instance
      */
     RoomSnapshot.prototype.players = $util.emptyArray;
+
+    /**
+     * RoomSnapshot foods.
+     * @member {Array.<IFoodContent>} foods
+     * @memberof RoomSnapshot
+     * @instance
+     */
+    RoomSnapshot.prototype.foods = $util.emptyArray;
 
     /**
      * Creates a new RoomSnapshot instance using the specified properties.
@@ -2257,6 +2633,9 @@ $root.RoomSnapshot = (function() {
         if (message.players != null && message.players.length)
             for (var i = 0; i < message.players.length; ++i)
                 $root.PlayerFullInfo.encode(message.players[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+        if (message.foods != null && message.foods.length)
+            for (var i = 0; i < message.foods.length; ++i)
+                $root.FoodContent.encode(message.foods[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
         return writer;
     };
 
@@ -2297,6 +2676,12 @@ $root.RoomSnapshot = (function() {
                     if (!(message.players && message.players.length))
                         message.players = [];
                     message.players.push($root.PlayerFullInfo.decode(reader, reader.uint32()));
+                    break;
+                }
+            case 2: {
+                    if (!(message.foods && message.foods.length))
+                        message.foods = [];
+                    message.foods.push($root.FoodContent.decode(reader, reader.uint32()));
                     break;
                 }
             default:
@@ -2343,6 +2728,15 @@ $root.RoomSnapshot = (function() {
                     return "players." + error;
             }
         }
+        if (message.foods != null && message.hasOwnProperty("foods")) {
+            if (!Array.isArray(message.foods))
+                return "foods: array expected";
+            for (var i = 0; i < message.foods.length; ++i) {
+                var error = $root.FoodContent.verify(message.foods[i]);
+                if (error)
+                    return "foods." + error;
+            }
+        }
         return null;
     };
 
@@ -2368,6 +2762,16 @@ $root.RoomSnapshot = (function() {
                 message.players[i] = $root.PlayerFullInfo.fromObject(object.players[i]);
             }
         }
+        if (object.foods) {
+            if (!Array.isArray(object.foods))
+                throw TypeError(".RoomSnapshot.foods: array expected");
+            message.foods = [];
+            for (var i = 0; i < object.foods.length; ++i) {
+                if (typeof object.foods[i] !== "object")
+                    throw TypeError(".RoomSnapshot.foods: object expected");
+                message.foods[i] = $root.FoodContent.fromObject(object.foods[i]);
+            }
+        }
         return message;
     };
 
@@ -2384,12 +2788,19 @@ $root.RoomSnapshot = (function() {
         if (!options)
             options = {};
         var object = {};
-        if (options.arrays || options.defaults)
+        if (options.arrays || options.defaults) {
             object.players = [];
+            object.foods = [];
+        }
         if (message.players && message.players.length) {
             object.players = [];
             for (var j = 0; j < message.players.length; ++j)
                 object.players[j] = $root.PlayerFullInfo.toObject(message.players[j], options);
+        }
+        if (message.foods && message.foods.length) {
+            object.foods = [];
+            for (var j = 0; j < message.foods.length; ++j)
+                object.foods[j] = $root.FoodContent.toObject(message.foods[j], options);
         }
         return object;
     };
@@ -2626,6 +3037,211 @@ $root.EnterContent = (function() {
     };
 
     return EnterContent;
+})();
+
+$root.ExitContent = (function() {
+
+    /**
+     * Properties of an ExitContent.
+     * @exports IExitContent
+     * @interface IExitContent
+     * @property {string|null} [playerId] ExitContent playerId
+     */
+
+    /**
+     * Constructs a new ExitContent.
+     * @exports ExitContent
+     * @classdesc Represents an ExitContent.
+     * @implements IExitContent
+     * @constructor
+     * @param {IExitContent=} [properties] Properties to set
+     */
+    function ExitContent(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * ExitContent playerId.
+     * @member {string} playerId
+     * @memberof ExitContent
+     * @instance
+     */
+    ExitContent.prototype.playerId = "";
+
+    /**
+     * Creates a new ExitContent instance using the specified properties.
+     * @function create
+     * @memberof ExitContent
+     * @static
+     * @param {IExitContent=} [properties] Properties to set
+     * @returns {ExitContent} ExitContent instance
+     */
+    ExitContent.create = function create(properties) {
+        return new ExitContent(properties);
+    };
+
+    /**
+     * Encodes the specified ExitContent message. Does not implicitly {@link ExitContent.verify|verify} messages.
+     * @function encode
+     * @memberof ExitContent
+     * @static
+     * @param {IExitContent} message ExitContent message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ExitContent.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.playerId != null && Object.hasOwnProperty.call(message, "playerId"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.playerId);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified ExitContent message, length delimited. Does not implicitly {@link ExitContent.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof ExitContent
+     * @static
+     * @param {IExitContent} message ExitContent message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ExitContent.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an ExitContent message from the specified reader or buffer.
+     * @function decode
+     * @memberof ExitContent
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {ExitContent} ExitContent
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ExitContent.decode = function decode(reader, length, error) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ExitContent();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            if (tag === error)
+                break;
+            switch (tag >>> 3) {
+            case 1: {
+                    message.playerId = reader.string();
+                    break;
+                }
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an ExitContent message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof ExitContent
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {ExitContent} ExitContent
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ExitContent.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an ExitContent message.
+     * @function verify
+     * @memberof ExitContent
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    ExitContent.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.playerId != null && message.hasOwnProperty("playerId"))
+            if (!$util.isString(message.playerId))
+                return "playerId: string expected";
+        return null;
+    };
+
+    /**
+     * Creates an ExitContent message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof ExitContent
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {ExitContent} ExitContent
+     */
+    ExitContent.fromObject = function fromObject(object) {
+        if (object instanceof $root.ExitContent)
+            return object;
+        var message = new $root.ExitContent();
+        if (object.playerId != null)
+            message.playerId = String(object.playerId);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from an ExitContent message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof ExitContent
+     * @static
+     * @param {ExitContent} message ExitContent
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    ExitContent.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults)
+            object.playerId = "";
+        if (message.playerId != null && message.hasOwnProperty("playerId"))
+            object.playerId = message.playerId;
+        return object;
+    };
+
+    /**
+     * Converts this ExitContent to JSON.
+     * @function toJSON
+     * @memberof ExitContent
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    ExitContent.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Gets the default type url for ExitContent
+     * @function getTypeUrl
+     * @memberof ExitContent
+     * @static
+     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns {string} The default type url
+     */
+    ExitContent.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        if (typeUrlPrefix === undefined) {
+            typeUrlPrefix = "type.googleapis.com";
+        }
+        return typeUrlPrefix + "/ExitContent";
+    };
+
+    return ExitContent;
 })();
 
 $root.ServerPacket = (function() {

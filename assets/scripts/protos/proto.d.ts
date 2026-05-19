@@ -550,6 +550,9 @@ export interface IPlayerContent {
 
     /** PlayerContent mass */
     mass?: (number|null);
+
+    /** PlayerContent isDead */
+    isDead?: (boolean|null);
 }
 
 /** Represents a PlayerContent. */
@@ -578,6 +581,9 @@ export class PlayerContent implements IPlayerContent {
 
     /** PlayerContent mass. */
     public mass: number;
+
+    /** PlayerContent isDead. */
+    public isDead: boolean;
 
     /**
      * Creates a new PlayerContent instance using the specified properties.
@@ -686,6 +692,9 @@ export interface IPlayerFullInfo {
 
     /** PlayerFullInfo mass */
     mass?: (number|null);
+
+    /** PlayerFullInfo isDead */
+    isDead?: (boolean|null);
 }
 
 /** Represents a PlayerFullInfo. */
@@ -723,6 +732,9 @@ export class PlayerFullInfo implements IPlayerFullInfo {
 
     /** PlayerFullInfo mass. */
     public mass: number;
+
+    /** PlayerFullInfo isDead. */
+    public isDead: boolean;
 
     /**
      * Creates a new PlayerFullInfo instance using the specified properties.
@@ -802,11 +814,129 @@ export class PlayerFullInfo implements IPlayerFullInfo {
     public static getTypeUrl(typeUrlPrefix?: string): string;
 }
 
+/** Properties of a FoodContent. */
+export interface IFoodContent {
+
+    /** FoodContent id */
+    id?: (number|null);
+
+    /** FoodContent x */
+    x?: (number|null);
+
+    /** FoodContent y */
+    y?: (number|null);
+
+    /** FoodContent isDead */
+    isDead?: (boolean|null);
+}
+
+/** Represents a FoodContent. */
+export class FoodContent implements IFoodContent {
+
+    /**
+     * Constructs a new FoodContent.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IFoodContent);
+
+    /** FoodContent id. */
+    public id: number;
+
+    /** FoodContent x. */
+    public x: number;
+
+    /** FoodContent y. */
+    public y: number;
+
+    /** FoodContent isDead. */
+    public isDead: boolean;
+
+    /**
+     * Creates a new FoodContent instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns FoodContent instance
+     */
+    public static create(properties?: IFoodContent): FoodContent;
+
+    /**
+     * Encodes the specified FoodContent message. Does not implicitly {@link FoodContent.verify|verify} messages.
+     * @param message FoodContent message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IFoodContent, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified FoodContent message, length delimited. Does not implicitly {@link FoodContent.verify|verify} messages.
+     * @param message FoodContent message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IFoodContent, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a FoodContent message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns FoodContent
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): FoodContent;
+
+    /**
+     * Decodes a FoodContent message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns FoodContent
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): FoodContent;
+
+    /**
+     * Verifies a FoodContent message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a FoodContent message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns FoodContent
+     */
+    public static fromObject(object: { [k: string]: any }): FoodContent;
+
+    /**
+     * Creates a plain object from a FoodContent message. Also converts values to other types if specified.
+     * @param message FoodContent
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: FoodContent, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this FoodContent to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+
+    /**
+     * Gets the default type url for FoodContent
+     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns The default type url
+     */
+    public static getTypeUrl(typeUrlPrefix?: string): string;
+}
+
 /** Properties of a RealtimeContent. */
 export interface IRealtimeContent {
 
     /** RealtimeContent players */
     players?: (IPlayerContent[]|null);
+
+    /** RealtimeContent foods */
+    foods?: (IFoodContent[]|null);
 }
 
 /** Represents a RealtimeContent. */
@@ -820,6 +950,9 @@ export class RealtimeContent implements IRealtimeContent {
 
     /** RealtimeContent players. */
     public players: IPlayerContent[];
+
+    /** RealtimeContent foods. */
+    public foods: IFoodContent[];
 
     /**
      * Creates a new RealtimeContent instance using the specified properties.
@@ -904,6 +1037,9 @@ export interface IRoomSnapshot {
 
     /** RoomSnapshot players */
     players?: (IPlayerFullInfo[]|null);
+
+    /** RoomSnapshot foods */
+    foods?: (IFoodContent[]|null);
 }
 
 /** Represents a RoomSnapshot. */
@@ -917,6 +1053,9 @@ export class RoomSnapshot implements IRoomSnapshot {
 
     /** RoomSnapshot players. */
     public players: IPlayerFullInfo[];
+
+    /** RoomSnapshot foods. */
+    public foods: IFoodContent[];
 
     /**
      * Creates a new RoomSnapshot instance using the specified properties.
@@ -1087,6 +1226,103 @@ export class EnterContent implements IEnterContent {
 
     /**
      * Gets the default type url for EnterContent
+     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns The default type url
+     */
+    public static getTypeUrl(typeUrlPrefix?: string): string;
+}
+
+/** Properties of an ExitContent. */
+export interface IExitContent {
+
+    /** ExitContent playerId */
+    playerId?: (string|null);
+}
+
+/** Represents an ExitContent. */
+export class ExitContent implements IExitContent {
+
+    /**
+     * Constructs a new ExitContent.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IExitContent);
+
+    /** ExitContent playerId. */
+    public playerId: string;
+
+    /**
+     * Creates a new ExitContent instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns ExitContent instance
+     */
+    public static create(properties?: IExitContent): ExitContent;
+
+    /**
+     * Encodes the specified ExitContent message. Does not implicitly {@link ExitContent.verify|verify} messages.
+     * @param message ExitContent message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IExitContent, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified ExitContent message, length delimited. Does not implicitly {@link ExitContent.verify|verify} messages.
+     * @param message ExitContent message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IExitContent, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes an ExitContent message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns ExitContent
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): ExitContent;
+
+    /**
+     * Decodes an ExitContent message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns ExitContent
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): ExitContent;
+
+    /**
+     * Verifies an ExitContent message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates an ExitContent message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns ExitContent
+     */
+    public static fromObject(object: { [k: string]: any }): ExitContent;
+
+    /**
+     * Creates a plain object from an ExitContent message. Also converts values to other types if specified.
+     * @param message ExitContent
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: ExitContent, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this ExitContent to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+
+    /**
+     * Gets the default type url for ExitContent
      * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
      * @returns The default type url
      */

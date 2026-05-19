@@ -3,16 +3,15 @@ const { ccclass, property } = _decorator;
 
 @ccclass('CameraController')
 export class CameraController extends Component {
-    
+
     @property(Camera)
     public camera: Camera | null = null;
     public target: Node | null = null;
 
     private _pos = new Vec3();
-    
+
     lateUpdate() {
         if (!this.target) return;
-
         this.target.getPosition(this._pos);
         this.node.setPosition(this._pos);
     }

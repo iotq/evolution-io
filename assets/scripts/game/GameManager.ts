@@ -29,6 +29,8 @@ export class GameManager extends Component {
 
   @property(GameSettings)
   public config: GameSettings = new GameSettings();
+  @property(Node)
+  public deadPanel: Node | null = null;
 
   public static get instance() {
     return this._instance;
@@ -37,7 +39,13 @@ export class GameManager extends Component {
   public start() {
     GameManager._instance = this;
     this.wsClient = new WebSocketClient();
-    this.wsClient.startAutoConnecting();
+  }
+
+  protected update(dt: number): void {
+    this.checkGameOver();
+  }
+  public enterGame() {
+    this.wsClient?.startAutoConnecting();
   }
 
   public onPlayerLogin(id: string) {
@@ -68,10 +76,21 @@ export class GameManager extends Component {
     );
   }
 
-  public getCurrentPlayerData(): protos.IPlayerFullInfo | null
-  {
-    if(!this.currentRoom || !this.currentRoom.playerInfos.has(this.shortId)) return null;
-    
+  public getCurrentPlayerData(): protos.IPlayerFullInfo | null {
+    if (!this.currentRoom || !this.currentRoom.playerInfos.has(this.shortId))
+      return null;
+
     return this.currentRoom.playerInfos.get(this.shortId) || null;
+  }
+
+  private checkGameOver() {
+    const infos = this.currentRoom?.playerInfos;
+    if (!infos || !this.currentRoom?.started) return;
+    if (
+      !infos.has(this.shortId) ||
+      infos.get(this.shortId)?.isDead
+    ) {
+      this.deadPanel!.active = true;
+    }
   }
 }

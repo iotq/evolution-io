@@ -2,6 +2,7 @@ import { Vec3 } from "cc";
 import { config } from "../../config";
 import { GameManager } from "../../game/GameManager";
 import protos from "../../protos/proto.js";
+import { PREVIEW, DEBUG } from 'cc/env';
 
 export class WebSocketClient {
   private socket: WebSocket | null = null;
@@ -19,9 +20,13 @@ export class WebSocketClient {
     if (!this.isDisconnected()) {
       return;
     }
-    console.log(`try connecting to wss://${config.GAMESERVER_URL}/ws`);
 
-    this.socket = new WebSocket(`wss://${config.GAMESERVER_URL}/ws`);
+    const isHttps = window.location.protocol === 'https:';
+    const isProduction = !PREVIEW && !DEBUG;
+    const wsProtocol = !isProduction || isHttps ? 'wss://' : 'ws://';
+    const host = isProduction ? window.location.host : config.GAMESERVER_HOST;
+    console.log(`try connecting to ${wsProtocol}${host}/ws`);
+    this.socket = new WebSocket(`${wsProtocol}${host}/ws`);
     this.socket.binaryType = "arraybuffer";
     this.socket.onmessage = this.onMessageReceived.bind(this);
     this.socket.onclose = () => {

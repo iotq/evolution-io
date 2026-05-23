@@ -21,7 +21,7 @@ const { ccclass, property } = _decorator;
 @ccclass("PlayerController")
 export class PlayerController extends Component {
   @property
-  moveSpeed: number = 300;
+  moveSpeed: number = 120;
 
   private _mouseMoveDir: Vec3 = new Vec3(0, 0, 0);
 

@@ -28,7 +28,7 @@ export class RankPanel extends Component {
   protected update(dt: number): void {
       this.updateRankings();
   }
-  
+
   public updateRankings() {
     const playerList = GameManager.instance.currentRoom?.playerInfos?.values();
     if (!playerList) return;
@@ -77,7 +77,7 @@ export class RankPanel extends Component {
       items.splice(items.length + diff, -diff);
     }
 
-    ranks.sort((a, b) => a.score - b.score);
+    ranks.sort((a, b) => b.score - a.score);
 
     for (let i = 0; i < ranks.length; i++) {
       const r = ranks[i];
